@@ -9,76 +9,114 @@ const holidays = {
 
 const reminders = {};
 
-// Create a calendar for the entire year
 function createCalendar() {
-    const calendar = document.getElementById('calendar');
+    const container = document.getElementById("calendar-container");
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
     const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    let currentTop = 5; // Starting top position (relative percentage)
-    let currentLeft = 2; // Starting left position (relative percentage)
-    const daySpacing = 3; // Space between dates (in %)
-    const rowSpacing = 5; // Space between rows (in %)
 
-    for (let month = 0; month < 12; month++) {
-        for (let day = 1; day <= daysInMonth[month]; day++) {
-            const dateKey = `${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            const dayDiv = document.createElement('div');
+    // Layout for months as per description
+    const layout = [
+        [0, 1],       // Top-left row (two months)
+        [2, 3],       // Top-right row (two months below top-left)
+        [4, 5],       // Middle-left row (two months below top-right)
+        [6, 7, 8, 9], // Four months row
+        [10, 11],     // Bottom row (two months)
+    ];
 
-            dayDiv.classList.add('date');
-            dayDiv.textContent = day;
-            dayDiv.style.left = `${currentLeft}%`;
-            dayDiv.style.top = `${currentTop}%`;
+    layout.forEach((row) => {
+        const rowContainer = document.createElement("div");
+        rowContainer.style.display = "flex";
+        rowContainer.style.justifyContent = "space-between";
+        rowContainer.style.width = "100%";
+        rowContainer.style.marginBottom = "20px";
 
-            if (holidays[dateKey]) {
-                dayDiv.classList.add('holiday');
-                dayDiv.title = holidays[dateKey];
+        row.forEach((monthIndex) => {
+            const monthDiv = document.createElement("div");
+            monthDiv.classList.add("month");
+
+            const title = document.createElement("h3");
+            title.textContent = monthNames[monthIndex];
+            monthDiv.appendChild(title);
+
+            const daysDiv = document.createElement("div");
+            daysDiv.classList.add("days");
+
+            // Add days of the week
+            daysOfWeek.forEach((day) => {
+                const dayDiv = document.createElement("div");
+                dayDiv.textContent = day;
+                dayDiv.classList.add("day", "blank");
+                daysDiv.appendChild(dayDiv);
+            });
+
+            // Add blank days to align the 1st day correctly
+            const firstDay = new Date(2025, monthIndex, 1).getDay();
+            for (let i = 0; i < firstDay; i++) {
+                const blankDiv = document.createElement("div");
+                blankDiv.classList.add("day", "blank");
+                daysDiv.appendChild(blankDiv);
             }
 
-            dayDiv.onclick = () => openModal(dateKey);
-            calendar.appendChild(dayDiv);
+            // Add the actual days
+            for (let day = 1; day <= daysInMonth[monthIndex]; day++) {
+                const dayDiv = document.createElement("div");
+                dayDiv.textContent = day;
+                dayDiv.classList.add("day");
+                const dateKey = `${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-            // Update positions
-            currentLeft += daySpacing;
-            if (currentLeft > 90) { // Move to the next row if beyond container
-                currentLeft = 2;
-                currentTop += rowSpacing;
+                if (holidays[dateKey]) {
+                    dayDiv.style.backgroundColor = "rgba(255, 200, 200, 0.8)";
+                    dayDiv.title = holidays[dateKey];
+                }
+
+                dayDiv.onclick = () => openModal(dateKey);
+                daysDiv.appendChild(dayDiv);
             }
-        }
-    }
+
+            monthDiv.appendChild(daysDiv);
+            rowContainer.appendChild(monthDiv);
+        });
+
+        container.appendChild(rowContainer);
+    });
 }
 
-// Open modal to set reminders
+// Modal functions
 function openModal(date) {
-    const modal = document.getElementById('modal');
-    const overlay = document.getElementById('overlay');
-    const dateText = document.getElementById('dateText');
-    const reminderInput = document.getElementById('reminderInput');
+    const modal = document.getElementById("modal");
+    const overlay = document.getElementById("overlay");
+    const dateText = document.getElementById("dateText");
+    const reminderInput = document.getElementById("reminderInput");
 
-    dateText.textContent = `Date: ${date} ${holidays[date] ? `(${holidays[date]})` : ''}`;
-    reminderInput.value = reminders[date] || '';
-    modal.classList.add('active');
-    overlay.classList.add('active');
+    dateText.textContent = `Date: ${date} ${holidays[date] ? `(${holidays[date]})` : ""}`;
+    reminderInput.value = reminders[date] || "";
+    modal.classList.add("active");
+    overlay.classList.add("active");
     modal.dataset.date = date;
 }
 
-// Close the modal
 function closeModal() {
-    const modal = document.getElementById('modal');
-    const overlay = document.getElementById('overlay');
-    modal.classList.remove('active');
-    overlay.classList.remove('active');
+    const modal = document.getElementById("modal");
+    const overlay = document.getElementById("overlay");
+    modal.classList.remove("active");
+    overlay.classList.remove("active");
 }
 
-// Save the reminder
 function saveReminder() {
-    const modal = document.getElementById('modal');
+    const modal = document.getElementById("modal");
     const date = modal.dataset.date;
-    const reminderInput = document.getElementById('reminderInput');
+    const reminderInput = document.getElementById("reminderInput");
 
     reminders[date] = reminderInput.value;
     alert(`Reminder set for ${date}: ${reminders[date]}`);
     closeModal();
 }
 
-// Initialize the calendar
+// Initialize calendar
 createCalendar();
     
