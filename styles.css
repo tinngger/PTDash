@@ -12,12 +12,16 @@ body {
     width: 100%;
     max-width: 1024px;
     margin: auto;
+    overflow: hidden;
 }
 
 .calendar-background {
+    background-image: url('calendar_bg.jpg');
+    background-size: contain; /* Dynamically scales the image */
+    background-repeat: no-repeat;
+    background-position: center;
     width: 100%;
-    max-width: 1024px;
-    height: auto;
+    padding-top: 125%; /* Maintain aspect ratio */
     position: relative;
 }
 
@@ -33,11 +37,13 @@ body {
     position: absolute;
     color: #000;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 1vw; /* Dynamically scale font size */
     cursor: pointer;
     background: rgba(255, 255, 255, 0.7);
     border-radius: 50%;
-    padding: 5px;
+    padding: 0.5vw;
+    text-align: center;
+    line-height: 1.5vw;
 }
 
 .holiday {
