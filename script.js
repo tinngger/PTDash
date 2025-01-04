@@ -12,31 +12,38 @@ const reminders = {};
 // Create a calendar for the entire year
 function createCalendar() {
     const calendar = document.getElementById('calendar');
-    const positions = [
-        { month: 1, day: 26, left: "15%", top: "10%" },
-        { month: 3, day: 10, left: "30%", top: "25%" },
-        { month: 8, day: 15, left: "50%", top: "50%" },
-        { month: 10, day: 2, left: "70%", top: "70%" },
-        { month: 11, day: 12, left: "85%", top: "85%" },
-    ];
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let currentTop = 5; // Starting top position (relative percentage)
+    let currentLeft = 2; // Starting left position (relative percentage)
+    const daySpacing = 3; // Space between dates (in %)
+    const rowSpacing = 5; // Space between rows (in %)
 
-    positions.forEach(pos => {
-        const dayDiv = document.createElement('div');
-        const dateKey = `${String(pos.month).padStart(2, '0')}-${String(pos.day).padStart(2, '0')}`;
+    for (let month = 0; month < 12; month++) {
+        for (let day = 1; day <= daysInMonth[month]; day++) {
+            const dateKey = `${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayDiv = document.createElement('div');
 
-        dayDiv.classList.add('date');
-        dayDiv.textContent = pos.day;
-        dayDiv.style.left = pos.left;
-        dayDiv.style.top = pos.top;
+            dayDiv.classList.add('date');
+            dayDiv.textContent = day;
+            dayDiv.style.left = `${currentLeft}%`;
+            dayDiv.style.top = `${currentTop}%`;
 
-        if (holidays[dateKey]) {
-            dayDiv.classList.add('holiday');
-            dayDiv.title = holidays[dateKey];
+            if (holidays[dateKey]) {
+                dayDiv.classList.add('holiday');
+                dayDiv.title = holidays[dateKey];
+            }
+
+            dayDiv.onclick = () => openModal(dateKey);
+            calendar.appendChild(dayDiv);
+
+            // Update positions
+            currentLeft += daySpacing;
+            if (currentLeft > 90) { // Move to the next row if beyond container
+                currentLeft = 2;
+                currentTop += rowSpacing;
+            }
         }
-
-        dayDiv.onclick = () => openModal(dateKey);
-        calendar.appendChild(dayDiv);
-    });
+    }
 }
 
 // Open modal to set reminders
