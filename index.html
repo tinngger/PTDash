@@ -1,54 +1,29 @@
-<!DOCTYPE html>
-<html>
-<title>COMICS</title>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive 2025 Calendar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <div>
-        <script language="JavaScript" src="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fgarfield.rss&chan=title&num=1&utf=y&html=a" charset="UTF-8" type="text/javascript"></script>
-
-        <noscript>
-<a href="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fgarfield.rss&chan=title&num=1&utf=y&html=y">View RSS feed</a>
-</noscript>
-
+    <h1>Interactive 2025 Calendar</h1>
+    <div class="calendar-container">
+        <img src="calendar_bg.jpg" alt="Calendar Background" class="calendar-background">
+        <div id="calendar"></div>
     </div>
 
-    <div>
-        <script language="JavaScript" src="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fdennisthemenace.rss&chan=title&num=1&utf=y&html=a" charset="UTF-8" type="text/javascript"></script>
-
-        <noscript>
-<a href="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fdennisthemenace.rss&chan=title&num=1&utf=y&html=y">View RSS feed</a>
-</noscript>
+    <div id="modal" class="modal">
+        <h2>Set Reminder</h2>
+        <p id="dateText"></p>
+        <input type="text" id="reminderInput" placeholder="Enter reminder">
+        <button onclick="saveReminder()">Save</button>
+        <button onclick="closeModal()">Cancel</button>
     </div>
+    <div id="overlay" class="overlay" onclick="closeModal()"></div>
 
-    <div>
-        <script language="JavaScript" src="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fdilbert.rss&chan=title&num=1&utf=y&html=a" charset="UTF-8" type="text/javascript"></script>
-
-        <noscript>
-<a href="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fdilbert.rss&chan=title&num=1&utf=y&html=y">View RSS feed</a>
-</noscript>
-    </div>
-    <div>
-        <script language="JavaScript" src="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fpeanuts.rss&chan=title&num=1&utf=y&html=a" charset="UTF-8" type="text/javascript"></script>
-
-        <noscript>
-<a href="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Fpeanuts.rss&chan=title&num=1&utf=y&html=y">View RSS feed</a>
-</noscript>
-    </div>
-    <div>
-        <script language="JavaScript" src="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Farchie.rss&chan=title&num=1&utf=y&html=a" charset="UTF-8" type="text/javascript"></script>
-
-        <noscript>
-<a href="https://feedroll.com/rssviewer/feed2js.php?src=https%3A%2F%2Fwww.comicsrss.com%2Frss%2Farchie.rss&chan=title&num=1&utf=y&html=y">View RSS feed</a>
-</noscript>
-    </div>
-
-    <div>
-        <center>
-            <font size="12">𝐇𝐀𝐃 𝐀 𝐋𝐀𝐔𝐆𝐇?</font>
-        </center>
-    </div>
+    <script src="script.js"></script>
 </body>
-
 </html>
-<!DOCTYPE html>
-<html>
+    
