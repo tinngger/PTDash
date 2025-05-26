@@ -1,2 +1,3 @@
-#PT Dash 
-A courework tracker for personal use
+# PT Dash
+A webapp based personal use coursework tracker.
+
